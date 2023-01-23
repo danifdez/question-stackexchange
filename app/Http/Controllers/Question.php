@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Datetime;
 use Illuminate\Http\Request;
+use App\Http\Requests\GetQuestionRequest;
 use Illuminate\Support\Facades\Http;
 
 class Question extends Controller
@@ -14,7 +15,7 @@ class Question extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request)
+    public function __invoke(GetQuestionRequest $request)
     {
         $params = [
             'tagged' => $request->get('tagged'),
