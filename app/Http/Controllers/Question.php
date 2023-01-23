@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Datetime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -15,9 +16,18 @@ class Question extends Controller
      */
     public function __invoke(Request $request)
     {
-        return  Http::get('https://api.stackexchange.com/2.3/questions', [
+        $params = [
             'tagged' => $request->get('tagged'),
             'site' => 'stackoverflow'
-        ])->json();
+        ];
+
+        if ($request->get('todate')) {
+            $params['todate'] = (new DateTime($request->get('todate')))->format('U');
+        }
+        if ($request->get('fromdate')) {
+            $params['fromdate'] = (new DateTime($request->get('fromdate')))->format('U');
+        }
+
+        return  Http::get('https://api.stackexchange.com/2.3/questions', $params)->json();
     }
 }
