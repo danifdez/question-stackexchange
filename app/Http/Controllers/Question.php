@@ -17,6 +17,13 @@ class Question extends Controller
      */
     public function __invoke(GetQuestionRequest $request)
     {
+        $params = $this->makeParams($request);
+
+        return  Http::get('https://api.stackexchange.com/2.3/questions', $params)->json();
+    }
+
+    private function makeParams(Request $request)
+    {
         $params = [
             'tagged' => $request->get('tagged'),
             'site' => 'stackoverflow'
@@ -29,6 +36,6 @@ class Question extends Controller
             $params['fromdate'] = (new DateTime($request->get('fromdate')))->format('U');
         }
 
-        return  Http::get('https://api.stackexchange.com/2.3/questions', $params)->json();
+        return $params;
     }
 }
